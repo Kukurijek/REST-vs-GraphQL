@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const routes = require('./Routes/routes.js');
+const routes = require('./REST/Routes/routes.js');
 
 
 

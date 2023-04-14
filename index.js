@@ -1,4 +1,4 @@
-const app = require('./src/REST/rest');
+const app = require('./src/rest');
 const config = require('./src/REST/Config/configDomain.js');
 
 
