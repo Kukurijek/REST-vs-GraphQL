@@ -3,11 +3,11 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const routes = require('./routes.js');
+const routes = require('./Routes/routes.js');
 
 
 
-'use strict';
+
 // defining the Express app
 const app = express();
 // defining an array to work as the database (temporary solution)
