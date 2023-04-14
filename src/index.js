@@ -1,5 +1,5 @@
-const app = require('./REST/rest');
-const config = require('./REST/Config/configDomain');
+const app = require('./rest');
+const config = require('./configDomain');
 
 
 app.listen(config.port, () => {
