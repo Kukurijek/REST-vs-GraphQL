@@ -3,8 +3,9 @@ var counter = 0;
 const express = require('express');
 const api = express.Router();
 
-api.get('/', (req, res) => {
+api.get('/hello', (req, res) => {
     counter++;
+    console.log(counter)
     if (counter > 100000) {
 
     } else {
@@ -14,10 +15,15 @@ api.get('/', (req, res) => {
     }
 
 });
-module.exports = api;
+
+api.post('/test', (req, res) => {
+    console.log(JSON.stringify(req.body));
+    res.send('Received' + JSON.stringify(req.body));
+})
+
 
 function test() {
-    let arr;
+    let arr = [];
     for (let i = 0; i < 1000; i++) {
         arr[i] = i;
     }
@@ -25,3 +31,4 @@ function test() {
 
     return arr;
 }
+module.exports = api;
