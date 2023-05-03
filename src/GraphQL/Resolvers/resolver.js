@@ -1,12 +1,12 @@
 const Movie = require('../../Database/models/movie').Movies;
 const resolvers = {
     Query: {
-        getMovies: (parent, args) => {
-            return Movie.find({});
+        getMovies: async (parent, args) => {
+            return await Movie.find({});
         },
 
-        getMovie: (parent, args) => {
-            return Movie.findById(args.id);
+        getMovie: async (parent, args) => {
+            return await Movie.findById(args.id);
         }
     },
     Mutation: {

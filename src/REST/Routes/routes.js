@@ -2,6 +2,7 @@
 var counter = 0;
 const express = require('express');
 const api = express.Router();
+const Movie = require('../../Database/models/movie').Movies;
 
 api.get('/hello', (req, res) => {
     counter++;
@@ -19,6 +20,13 @@ api.get('/hello', (req, res) => {
 api.post('/test', (req, res) => {
     console.log(JSON.stringify(req.body));
     res.send('Received' + JSON.stringify(req.body));
+})
+
+api.get('/user', async (req, res) => {
+
+    let results = await Movie.find({})
+    res.send(results).status(200);
+
 })
 
 
