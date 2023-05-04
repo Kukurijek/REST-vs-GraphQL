@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Review = require("./review");
 
 const Schema = mongoose.Schema;
 const movieSchema = new Schema({
@@ -13,7 +14,12 @@ const movieSchema = new Schema({
     producer: {
         type: String,
         required: true
-    }
+    },
+    reviews: [{
+        type: mongoose.Types.ObjectId,
+        ref: "Review"
+
+    }],
 }, {
     timestamps: true
 });

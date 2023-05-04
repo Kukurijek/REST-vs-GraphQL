@@ -4,9 +4,6 @@ const configRest = require('./src/REST/Config/configDomain.js');
 const mongoose = require('mongoose');
 
 
-
-
-
 const url = "mongodb://127.0.0.1:27017/moviesdb";
 const connect = mongoose.connect(url, {
     useNewUrlParser: true

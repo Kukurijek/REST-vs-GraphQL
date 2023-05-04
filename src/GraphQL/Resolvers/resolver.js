@@ -1,12 +1,45 @@
 const Movie = require('../../Database/models/movie').Movies;
+const User = require('../../Database/models/user').Users;
+const Review = require('../../Database/models/review').Reviews
 const resolvers = {
     Query: {
         getMovies: async (parent, args) => {
-            return await Movie.find({});
+            return Movie.find({}).populate({
+                path: 'reviews',
+                populate: {
+                    path: 'user',
+                    model: 'User'
+                }
+            });
         },
 
         getMovie: async (parent, args) => {
-            return await Movie.findById(args.id);
+            return Movie.findById(args.id).populate({
+                path: 'reviews',
+                populate: {
+                    path: 'user',
+                    model: 'User'
+                }
+            });
+        },
+        getUsers: async (parent, args) => {
+            return User.find({}).populate({
+                path: 'reviews',
+                populate: {
+                    path: 'movie',
+                    model: 'Movie'
+                }
+            });
+
+        },
+        getUser: async (parent, args) => {
+            return await User.findById(args.id);
+        },
+        getReviews: async (parent, args) => {
+            return await Review.find({}).populate('user').populate('movie');
+        },
+        getReview: async (parent, args) => {
+            return await Review.findById(args.id);
         }
     },
     Mutation: {
@@ -35,6 +68,46 @@ const resolvers = {
                     console.log('Something went wrong when updating the movie');
                 }
             });
+        },
+        addUser: (parent, args) => {
+            let user = new User({
+                firstName: args.firstName,
+                lastName: args.lastName,
+                email: args.email
+            });
+            return user.save();
+        },
+        addReview: (parent, args) => {
+            let review = new Review({
+                title: args.title,
+                description: args.description,
+                body: args.body,
+                user: args.userID,
+                movie: args.movieID
+
+            })
+            console.log(review)
+            return review
+                .save()
+                .then(result => {
+                    let arr = [];
+                    arr.push(User.findById(result.user.toString()));
+                    User.findById(result.user.toString())
+                        .then(result => {
+                            result.reviews.push(review);
+                            result.save();
+                        })
+
+                    Movie.findById(result.movie.toString())
+                        .then(result => {
+                            result.reviews.push(review)
+                            result.save();
+                        })
+                    arr.push(Movie.findById(result.movie.toString()));
+                    return review
+                })
+
+
         }
     }
 }

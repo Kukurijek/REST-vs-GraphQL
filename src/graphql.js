@@ -37,11 +37,13 @@ async function startServer() {
 
     app.use(bodyParser.json());
     app.use('*', cors());
+
     await server.start();
     server.applyMiddleware({
         app,
         path: '/'
     });
+
     httpServer.listen({
         port: configGraph.port
     }, resolve);
