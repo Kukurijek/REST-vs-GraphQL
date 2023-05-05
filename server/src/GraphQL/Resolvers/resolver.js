@@ -33,7 +33,9 @@ const resolvers = {
 
         },
         getUser: async (parent, args) => {
-            return await User.findById(args.id);
+            return User.findById(args.id).populate({
+                path: 'reviews',
+            });
         },
         getReviews: async (parent, args) => {
             return await Review.find({}).populate('user').populate('movie');
@@ -91,14 +93,14 @@ const resolvers = {
                 .save()
                 .then(result => {
                     let arr = [];
-                    arr.push(User.findById(result.user.toString()));
+                    arr.push(User.findByIdAndUpdate(result.user.toString()));
                     User.findById(result.user.toString())
                         .then(result => {
                             result.reviews.push(review);
                             result.save();
                         })
 
-                    Movie.findById(result.movie.toString())
+                    Movie.findByIdAndUpdate(result.movie.toString())
                         .then(result => {
                             result.reviews.push(review)
                             result.save();
