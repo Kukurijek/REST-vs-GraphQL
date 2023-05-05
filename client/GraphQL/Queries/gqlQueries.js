@@ -3,10 +3,7 @@ const {
     gql
 } = require('graphql-request');
 
-
-
-
-let getUsersFnameLNameReviewsMovieName = () => {
+async function getUsersFnameLNameReviewsMovieName() {
     const query = gql `
     query GetUsers {
         getUsers {
