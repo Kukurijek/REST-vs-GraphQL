@@ -14,6 +14,15 @@ connect.then((db) => {
     console.log(err);
 });
 
+process.on('SIGINT', () => {
+    mongoose.connection.close(() => {
+        console.log(
+            'Mongoose connection is disconnected due to application termination.'
+        )
+        process.exit(0)
+    })
+})
+
 rest.listen(configRest.port, () => {
     console.log(`Rest API running on ${configRest.port}`)
 })

@@ -8,7 +8,7 @@ const {
 } = require('@faker-js/faker');
 
 
-const endpoint = 'http://localhost:4000'
+const endpoint = 'http://localhost:4000/'
 
 const graphQLClient = new GraphQLClient(endpoint, {
   headers: {},
@@ -19,6 +19,7 @@ async function getUsersFnameLNameReviewsMovieName() {
   const query = gql `
     query GetUsers {
         getUsers {
+          id
           firstName
           lastName
           reviews {
@@ -33,6 +34,45 @@ async function getUsersFnameLNameReviewsMovieName() {
       }
     `;
   return graphQLClient.request(query);
+}
+async function getUserById(id) {
+  const query = gql `
+  query GetUser($getUserId: ID!) {
+    getUser(id: $getUserId) {
+      id
+      firstName
+      lastName
+      reviews {
+        id
+        title
+        description
+      }
+    }
+  }
+  `
+  variables = {
+    "getUserId": id
+  }
+  return await graphQLClient.request(query, variables)
+}
+async function getMovies() {
+  const query = gql `
+  query GetMovies {
+    getMovies {
+      id
+      name
+      producer
+      rating
+      reviews {
+        id
+        title
+        description
+        body
+      }
+    }
+  }
+  `
+  return await graphQLClient.request(query);
 }
 
 async function addUser() {
@@ -86,8 +126,8 @@ async function addReview(userId, movieId) {
     "title": faker.color.human(),
     "description": faker.lorem.paragraphs(1),
     "body": faker.lorem.paragraphs(5),
-    "userId": userId.toString(),
-    "movieId": movieId.toString()
+    "userId": userId,
+    "movieId": movieId
   }
   return await graphQLClient.request(mutation, variables);
 }
@@ -99,3 +139,5 @@ exports.getUsersFnameLNameReviewsMovieName = getUsersFnameLNameReviewsMovieName;
 exports.addUser = addUser;
 exports.addMovie = addMovie;
 exports.addReview = addReview;
+exports.getUserById = getUserById;
+exports.getMovies = getMovies;

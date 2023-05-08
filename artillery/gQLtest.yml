@@ -1,0 +1,43 @@
+config:
+  target: "http://localhost:4000"
+  phases:
+    - duration: 10
+      arrivalRate: 5
+      name: Real Test
+      payload:
+      path: "users.csv"
+      fields: 
+      - _id
+      order: sequence
+
+scenarios:
+  - name: "Fetch Specific user by id"
+    flow:
+      - post:
+          url: "/"
+          json:
+            query: |
+              query GetUser($getUserId: ID!) {
+                getUser(id: $getUserId) {
+                  id
+                  firstName
+                  lastName
+                  reviews {
+                    id
+                    title
+                    description
+                  }
+                }
+              }      
+            variables:
+              input:
+                "getUserId": "6458d651942291faeed8a929"
+            capture:
+             - json: "$.data.getUser"
+               as: body
+            log: "{{body}}"
+
+            
+
+  
+

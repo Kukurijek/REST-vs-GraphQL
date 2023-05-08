@@ -1,27 +1,60 @@
+const {
+    error
+} = require('console');
 const fs = require('fs');
 const {
     userInfo
 } = require('os');
 
-movieList = [];
-userList = [];
+let movieList = [];
+let userList = [];
+
+
+
+function writetoFile(users, movies) {
+
+    const listOfFiles = [{
+        fileName: './helpers/movieList.json',
+        data: movies
+    }, {
+        fileName: "./helpers/userList.json",
+        data: users
+    }];
+    listOfFiles.reduce(function (curFile, nextFile) {
+        return writeData(nextFile).then();
+    }, writeData);
+
+    function writeData(params) {
+        return new Promise((resolve, reject) => {
+            fs.writeFileSync(params.fileName, JSON.stringify(params.data), 'utf8', (err) => {
+                if (err)
+                    reject(err);
+                else
+                    resolve();
+            });
+        });
+    }
+}
+
+
 
 async function getMovieList() {
-    data = fs.readFileSync('./helpers/movieList.json')
+    var data = fs.readFileSync('./helpers/movieList.json')
     let json = JSON.parse(data);
-    for (var i in json.data.getMovies) {
-        movieList.push([i, json.data.getMovies[i]]);
+    for (let i in json.getMovies) {
+        movieList.push([i, json.getMovies[i]]);
     }
     return movieList;
 }
 async function getUserList() {
-    data = fs.readFileSync('./helpers/userList.json')
+    var data = fs.readFileSync('./helpers/userList.json')
     let json = JSON.parse(data);
-    for (var i in json.data.getUsers) {
-        userList.push([i, json.data.getUsers[i]]);
+    for (let i in json.getUsers) {
+        userList.push([i, json.getUsers[i]]);
     }
     return userList;
 }
 
 module.exports.getUserList = getUserList;
 module.exports.getMovieList = getMovieList;
+module.exports.writetoFile = writetoFile;

@@ -33,15 +33,16 @@ const resolvers = {
 
         },
         getUser: async (parent, args) => {
+            console.log(args + "tet");
             return User.findById(args.id).populate({
                 path: 'reviews',
             });
         },
         getReviews: async (parent, args) => {
-            return await Review.find({}).populate('user').populate('movie');
+            return Review.find({}).populate('user').populate('movie')
         },
         getReview: async (parent, args) => {
-            return await Review.findById(args.id);
+            return Review.findById(args.id);
         }
     },
     Mutation: {
