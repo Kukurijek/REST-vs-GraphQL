@@ -42,7 +42,9 @@ const typeDefs = gql `
      updateReview(id: ID!, title: String!, description: String, body: String!) : Review
      updateUser(id: ID!, firstName: String, lastName: String, email: String) : User
      updateMovie(id: ID!, name: String!, producer: String!, rating: Float): Movie 
-     deleteMovie(id: ID!): Movie 
+     deleteMovie(id: ID!): Movie
+     deleteUser(id: ID!): User
+     deleteReview(id: ID!): Review 
    } 
 `
 module.exports = {

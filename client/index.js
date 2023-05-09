@@ -83,7 +83,7 @@ async function testGetAllUsers(iterations) {
     }
 }
 
-async function testAddUsers(iterations) {
+async function testAddUser(iterations) {
     x = 0;
     count = 0;
 

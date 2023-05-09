@@ -33,16 +33,19 @@ const resolvers = {
 
         },
         getUser: async (parent, args) => {
-            console.log(args + "tet");
             return User.findById(args.id).populate({
                 path: 'reviews',
-            });
+                populate: {
+                    path: 'movie',
+                    model: 'Movie'
+                }
+            })
         },
         getReviews: async (parent, args) => {
-            return Review.find({}).populate('user').populate('movie')
+            return await Review.find({}).populate('user').populate('movie');
         },
         getReview: async (parent, args) => {
-            return Review.findById(args.id);
+            return await Review.findById(args.id);
         }
     },
     Mutation: {
@@ -80,6 +83,32 @@ const resolvers = {
             });
             return user.save();
         },
+        updateUser: (parentt, args) => {
+            if (!args.id) {
+                console.error('CCould not find user, status code 404');
+                return;
+            }
+            const {
+                firstName,
+                lastName,
+                email
+            } = args.body;
+            return User.findOneAndUpdate({
+                _id: args.id
+            }, {
+                $set: {
+                    firstName,
+                    lastName,
+                    email
+                }
+            }, {
+                new: true
+            }, (err, User) => {
+                if (err) {
+                    console.error('Error ocurred whilst trying to update the user:', err)
+                }
+            });
+        },
         addReview: (parent, args) => {
             let review = new Review({
                 title: args.title,
@@ -111,10 +140,67 @@ const resolvers = {
                 })
 
 
+        },
+        updateReview: (parent, args) => {
+            if (!args.id) {
+                console.error('No such review. status code 404');
+                return;
+            }
+            const {
+                title,
+                description,
+                body
+            } = args.body;
+            Review.findOneAndUpdate({
+                _id: args.id
+            }, {
+                $set: {
+                    title,
+                    description,
+                    body
+                }
+            }, {
+                new: true
+            }, (err, Review) => {
+                if (err) {
+                    console.error('Error ocurred whilst trying to update the review:', err)
+                }
+            });
+        },
+        //Delete review
+        deleteReview: (parent, args) => {
+            if (!args.id) {
+                return;
+            }
+            Review.findByIdAndDelete(args.id).then(removed_review => {
+                if (!removed_review) {
+                    console.error("")
+                } else {
+                    Promise.all([
+                        User.updateOne({
+                            _id: removed_review.user
+                        }, {
+                            $pull: {
+                                reviews: args.id
+                            }
+                        }),
+                        Movie.updateOne({
+                            _id: removed_review.movie
+                        }, {
+                            $pull: {
+                                reviews: args.id
+                            }
+                        })
+                    ]).then(() => {
+                        return removed_review;
+                    }).catch(error => {
+                        console.error('Error occured trying to remove references: ', error);
+                    })
+                }
+            })
         }
     }
 }
-
 module.exports = {
     resolvers
 };
