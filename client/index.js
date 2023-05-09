@@ -140,7 +140,7 @@ async function runTests() {
         console.log(x / count);
     })*/
 
-    await testGetUser(500).then(() => {
+    await testAddUser(50).then(() => {
         console.log(x / count);
     })
 }

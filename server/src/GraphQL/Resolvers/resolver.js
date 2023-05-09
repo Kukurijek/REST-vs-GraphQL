@@ -49,13 +49,13 @@ const resolvers = {
         }
     },
     Mutation: {
-        addMovie: (parent, args) => {
+        addMovie: async (parent, args) => {
             let movie = new Movie({
                 name: args.name,
                 producer: args.producer,
                 rating: args.rating,
             });
-            return movie.save();
+            return await movie.save();
         },
         updateMovie: (parent, args) => {
             if (!args.id) return;
@@ -75,13 +75,13 @@ const resolvers = {
                 }
             });
         },
-        addUser: (parent, args) => {
+        addUser: async (parent, args) => {
             let user = new User({
                 firstName: args.firstName,
                 lastName: args.lastName,
                 email: args.email
             });
-            return user.save();
+            return await user.save();
         },
         updateUser: (parentt, args) => {
             if (!args.id) {

@@ -30,7 +30,7 @@ const typeDefs = gql `
  type Query { 
    getMovies: [Movie] 
    getMovie(id: ID!): Movie 
-   getUsers: [User]
+   getUsers(limit: Int): [User]
    getUser(id: ID!): User
    getReviews: [Review]
    getReview(id: ID!): Review
