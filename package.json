@@ -14,12 +14,16 @@
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "express-watcher": "^1.0.3",
     "faker": "^6.6.6",
     "graphql-request": "^6.0.0",
     "helmet": "^6.1.5",
+    "js-meter": "^1.1.4",
     "mongoose": "^7.1.0",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "os-utils": "^0.0.14",
+    "systeminformation": "^5.17.12"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0"

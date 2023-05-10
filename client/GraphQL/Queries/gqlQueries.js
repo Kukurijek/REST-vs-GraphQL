@@ -1,6 +1,7 @@
 const {
   GraphQLClient,
-  gql
+  gql,
+  batchRequests
 } = require('graphql-request');
 const {
   faker,
@@ -35,8 +36,8 @@ async function getUsersFnameLNameReviewsMovieName() {
     `;
   return graphQLClient.request(query);
 }
-async function getUserById(id) {
-  const query = gql `
+async function getUserById(id, id2, id3, id4) {
+  const query1 = gql `
   query GetUser($getUserId: ID!) {
     getUser(id: $getUserId) {
       id
@@ -50,10 +51,72 @@ async function getUserById(id) {
     }
   }
   `
-  variables = {
-    "getUserId": id
+  const query2 = gql `
+  query GetUser($getUserId: ID!) {
+    getUser(id: $getUserId) {
+      id
+      firstName
+      lastName
+      reviews {
+        id
+        title
+        description
+      }
+    }
   }
-  return await graphQLClient.request(query, variables)
+  `
+  const query3 = gql `
+  query GetUser($getUserId: ID!) {
+    getUser(id: $getUserId) {
+      id
+      firstName
+      lastName
+      reviews {
+        id
+        title
+        description
+      }
+    }
+  }
+  `
+  const query4 = gql `
+  query GetUser($getUserId: ID!) {
+    getUser(id: $getUserId) {
+      id
+      firstName
+      lastName
+      reviews {
+        id
+        title
+        description
+      }
+    }
+  }
+  `
+  return await graphQLClient.batchRequests([{
+      document: query1,
+      variables: {
+        "getUserId": id
+      }
+    },
+    {
+      document: query2,
+      variables: {
+        "getUserId": id2
+      }
+    },
+    {
+      document: query3,
+      variables: {
+        "getUserId": id3
+      }
+    }, {
+      document: query4,
+      variables: {
+        "getUserId": id4
+      }
+    }
+  ])
 }
 async function getMovies() {
   const query = gql `

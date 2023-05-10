@@ -118,7 +118,6 @@ const resolvers = {
                 movie: args.movieID
 
             })
-            console.log(review)
             return review
                 .save()
                 .then(result => {

@@ -52,13 +52,16 @@ async function testGetUser(iterations) {
     i = 0;
     count = 0;
 
-    for (let i = 0; i < iterations; i++) {
+    for (let i = 0; i < (iterations * 4); i += 4) {
+        const startTime = Date.now();
         performance.mark(`Test-${i}-start`);
-        var test = await gqlQueries.getUserById(userList[i][1].id);
-        performance.mark(`Test-${i}-end`)
-        performance.measure(`Test-${i}`, `Test-${i}-start`, `Test-${i}-end`);
-        const measure = performance.getEntriesByName(`Test-${i}`)[0];
-        console.log(measure.duration)
+        var test = await gqlQueries.getUserById(userList[i][1].id, userList[i + 1][1].id, userList[i + 2][1].id, userList[i + 3][1].id);
+        const totalTime = Date.now() - startTime;
+        console.log(totalTime)
+        //performance.mark(`Test-${i}-end`)
+        //performance.measure(`Test-${i}`, `Test-${i}-start`, `Test-${i}-end`);
+        //const measure = performance.getEntriesByName(`Test-${i}`)[0];
+
 
     }
 
@@ -69,15 +72,11 @@ async function testGetAllUsers(iterations) {
 
     for (let i = 0; i < iterations; i++) {
 
-        const startUsage = cpuUsage();
-        console.log("Start usage :")
-        console.log(startUsage)
+
         performance.mark(`Test-${i}-start`);
         await gqlQueries.getUsersFnameLNameReviewsMovieName().then((data) => {
             performance.mark(`Test-${i}-end`)
             performance.measure(`Test-${i}`, `Test-${i}-start`, `Test-${i}-end`);
-            console.log("Difference :")
-            console.log(cpuUsage(startUsage))
         });
 
     }
@@ -140,7 +139,7 @@ async function runTests() {
         console.log(x / count);
     })*/
 
-    await testAddUser(50).then(() => {
+    await testGetUser(20).then(() => {
         console.log(x / count);
     })
 }
