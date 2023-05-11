@@ -5,7 +5,10 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const routes = require('./REST/Routes/routes.js');
 
-
+const {
+    cpuUsage,
+    memoryUsage
+} = require('process');
 
 
 // defining the Express app
@@ -29,9 +32,32 @@ app.use(bodyParser.urlencoded({
 
 // enabling CORS for all requests
 app.use(cors());
+app.use((req, res, next) => {
+    const startUsage = process.cpuUsage()
+    let oldResponse = res.send;
+    res.send = async (data) => {
 
+        const ramUsed = memoryUsage().heapUsed / 1024 / 1024
+        const endUsage = process.cpuUsage();
+        var totalUsage = endUsage.user - startUsage.user
+
+        res.send = oldResponse;
+        performance = {
+            ram: ramUsed.toFixed(2),
+            cpu: totalUsage
+        }
+        res.set('performance', JSON.stringify(performance))
+
+        return res.send(data);
+
+
+
+
+    }
+    next();
+})
 // adding morgan to log HTTP requests
-app.use(morgan('combined'));
+//app.use(morgan('combined'));
 
 // defining an endpoint to return all ads
 app.use('/', routes);

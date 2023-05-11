@@ -34,7 +34,7 @@ async function getUsersFnameLNameReviewsMovieName() {
         }
       }
     `;
-  return graphQLClient.request(query);
+  return graphQLClient.rawRequest(query);
 }
 async function getUserById(id) {
   const query = gql `
@@ -56,7 +56,7 @@ async function getUserById(id) {
   variables = {
     "getUserId": id
   }
-  return await graphQLClient.request(query, variables);
+  return await graphQLClient.rawRequest(query, variables);
 }
 async function getMovies() {
   const query = gql `
@@ -75,7 +75,17 @@ async function getMovies() {
     }
   }
   `
-  return await graphQLClient.request(query);
+  return await graphQLClient.rawRequest(query);
+}
+async function getReviews() {
+  const query = gql `
+  query GetReviews {
+    getReviews {
+      id
+    }
+  }
+  `
+  return await graphQLClient.rawRequest(query);
 }
 
 async function addUser() {
@@ -93,7 +103,7 @@ async function addUser() {
     "lastName": faker.name.lastName(),
     "email": faker.internet.email()
   }
-  return await graphQLClient.request(mutation, variables);
+  return await graphQLClient.rawRequest(mutation, variables);
 }
 
 async function addMovie() {
@@ -112,11 +122,10 @@ async function addMovie() {
     "rating": Math.floor(Math.random() * 6)
   }
 
-  return await graphQLClient.request(mutation, variables);
+  return await graphQLClient.rawRequest(mutation, variables);
 }
 
 async function addReview(userId, movieId) {
-  console.log(userId)
   const mutation = gql `
   mutation AddReview($title: String!, $description: String!, $body: String!, $userId: ID!, $movieId: ID!) {
     addReview(title: $title, description: $description, body: $body, userID: $userId, movieID: $movieId) {
@@ -131,7 +140,23 @@ async function addReview(userId, movieId) {
     "userId": userId,
     "movieId": movieId
   }
-  return await graphQLClient.request(mutation, variables);
+  return await graphQLClient.rawRequest(mutation, variables);
+}
+async function updateReview(reviewId) {
+  const mutation = gql `
+  mutation UpdateReview($updateReviewId: ID!, $title: String!, $body: String!) {
+    updateReview(id: $updateReviewId, title: $title, body: $body) {
+      title
+      body
+    }
+  }
+  `
+  const variables = {
+    "updateReviewId": reviewId,
+    "title": faker.color.human(),
+    "body": faker.lorem.paragraphs(4)
+  }
+  return await graphQLClient.rawRequest(mutation, variables);
 }
 
 
@@ -143,3 +168,5 @@ exports.addMovie = addMovie;
 exports.addReview = addReview;
 exports.getUserById = getUserById;
 exports.getMovies = getMovies;
+exports.getReviews = getReviews;
+exports.updateReview = updateReview;

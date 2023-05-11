@@ -53,7 +53,6 @@ api.get('/movies/:id', (req, res) => {
 // Fetch all movie in db
 api.get('/movies', (req, res) => {
     Movie.find().then(movies => {
-        console.log("movie!!!")
         res.json(movies);
     }).catch(error => {
         console.log('Error:', error);
@@ -134,7 +133,6 @@ api.post('/reviews', (req, res) => {
         user: req.body.userID
     })
     new_review.save().then(async saved_review => {
-        console.log(saved_review);
         await User.findById(saved_review.user.toString()).then(user => {
             if (!user) {
                 res.status(404).json({

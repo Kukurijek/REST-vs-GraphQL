@@ -150,6 +150,7 @@ const resolvers = {
                 description,
                 body
             } = args.body;
+
             Review.findOneAndUpdate({
                 _id: args.id
             }, {
@@ -160,10 +161,7 @@ const resolvers = {
                 }
             }, {
                 new: true
-            }, (err, Review) => {
-                if (err) {
-                    console.error('Error ocurred whilst trying to update the review:', err)
-                }
+
             });
         },
         //Delete review

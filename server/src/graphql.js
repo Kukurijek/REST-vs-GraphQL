@@ -2,10 +2,6 @@ const express = require('express');
 const schema = require('./GraphQL/Schema/schema');
 const resolve = require('./GraphQL/Resolvers/resolver');
 const configGraph = require('./GraphQL/Config/configDomain.js')
-var os = require('os-utils')
-const isPrint = true
-const isMb = true
-
 
 const {
     ApolloServerPluginDrainHttpServer,
@@ -55,9 +51,12 @@ async function startServer() {
             const ramUsed = memoryUsage().heapUsed / 1024 / 1024
             const endUsage = process.cpuUsage();
             var totalUsage = endUsage.user - startUsage.user
-            console.log("CPU USAGE: " + totalUsage + "RAM: " + ramUsed.toFixed(2));
-
             res.send = oldResponse;
+            performance = {
+                ram: ramUsed.toFixed(0),
+                cpu: totalUsage
+            }
+            res.set('performance', JSON.stringify(performance))
 
             return res.send(data);
 
@@ -79,12 +78,7 @@ async function startServer() {
     }, resolve);
     console.log(`GraphQL Server ready at http://localhost:${configGraph.port}`)
 
-    async function measureCPUUtilization() {
-        const data = await si.currentLoad();
-        const cpuUtilization = data.currentload;
-        console.log(`CPU Utilization: ${cpuUtilization}%`);
-        // Add further code for CPU utilization analysis or recording
-    }
+
 }
 
 
