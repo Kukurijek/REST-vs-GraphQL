@@ -47,7 +47,6 @@ async function startServer() {
         const startUsage = process.cpuUsage()
         let oldResponse = res.send;
         res.send = async (data) => {
-
             const ramUsed = memoryUsage().heapUsed / 1024 / 1024
             const endUsage = process.cpuUsage();
             var totalUsage = endUsage.user - startUsage.user

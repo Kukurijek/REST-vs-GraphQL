@@ -22,7 +22,8 @@ async function populateLists() {
     reviews = await gqlQueries.getReviews();
     reviews = reviews.data;
 
-    doDifferentTasks1000Iterations();
+    //doDifferentTasks1000Iterations();
+    getAllUsers200Iterations();
 
 
 
@@ -56,6 +57,35 @@ async function doTestGetUser300Iteration() {
     restArr = await restTester.testGetUser(300, users);
     console.log('Writing to file..');
     testWriter.saveFileToCsv(gqlArr, restArr, "../Testresults/testGetUser_300_iterations.csv")
+}
+
+async function getAllUsers200Iterations() {
+    var gqlRestimeArr = [];
+    var gqlCpuArr = [];
+    var gqlRamArr = [];
+
+
+    var restRestimeArr = [];
+    var restCpuArr = [];
+    var restRamArr = [];
+    gqlRestimeArr.push('Res_Time_GQL');
+    gqlCpuArr.push('Cpu_usage_GQL');
+    gqlRamArr.push('Ram_Usage_GQL');
+    restRestimeArr.push('Res_Time_Rest');
+    restCpuArr.push('Cpu_usage_Rest');
+    restRamArr.push('Ram_Usage_Rest');
+
+    let json = await gqlTester.testGetAllUsers(20);
+    gqlRestimeArr = gqlRestimeArr.concat(json.testArr);
+    gqlCpuArr = gqlCpuArr.concat(json.cpuArr);
+    gqlRamArr = gqlRamArr.concat(json.ramArr);
+
+    json = await restTester.testGetAllUsers(20);
+    restRestimeArr = restRestimeArr.concat(json.testArr);
+    restCpuArr = restCpuArr.concat(json.cpuArr);
+    restRamArr = restRamArr.concat(json.ramArr);
+
+    testWriter.saveFileToCsv(gqlRestimeArr, gqlCpuArr, gqlRamArr, restRestimeArr, restCpuArr, restRamArr, "../Testresults/getAllUsers_200_iterations.csv");
 }
 
 async function doDifferentTasks1000Iterations() {

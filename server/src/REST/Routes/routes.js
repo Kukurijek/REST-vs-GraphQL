@@ -27,7 +27,7 @@ api.get('/users/:id', (req, res) => {
 
 // Fetch all users in db
 api.get('/users', (req, res) => {
-    User.find().then(users => {
+    User.find({}).populate('reviews').then(users => {
         res.json(users);
     })
 })

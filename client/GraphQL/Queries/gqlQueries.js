@@ -24,12 +24,8 @@ async function getUsersFnameLNameReviewsMovieName() {
           firstName
           lastName
           reviews {
-            title
-            description
-            body
-            movie {
-              name
-            }
+            id
+            
           }
         }
       }

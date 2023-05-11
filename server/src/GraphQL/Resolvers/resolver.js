@@ -4,13 +4,7 @@ const Review = require('../../Database/models/review').Reviews
 const resolvers = {
     Query: {
         getMovies: async (parent, args) => {
-            return Movie.find({}).populate({
-                path: 'reviews',
-                populate: {
-                    path: 'user',
-                    model: 'User'
-                }
-            });
+            return Movie.find({}).populate('reviews');
         },
 
         getMovie: async (parent, args) => {

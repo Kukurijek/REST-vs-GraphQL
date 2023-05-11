@@ -43,7 +43,7 @@ app.use((req, res, next) => {
 
         res.send = oldResponse;
         performance = {
-            ram: ramUsed.toFixed(2),
+            ram: ramUsed.toFixed(0),
             cpu: totalUsage
         }
         res.set('performance', JSON.stringify(performance))
