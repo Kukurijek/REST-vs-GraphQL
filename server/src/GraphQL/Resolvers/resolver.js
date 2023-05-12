@@ -73,35 +73,28 @@ const resolvers = {
             let user = new User({
                 firstName: args.firstName,
                 lastName: args.lastName,
-                email: args.email
+                email: args.email,
+                dateOfBirth: args.dateOfBirth,
+                location: args.location,
+                favoriteGenre: args.favoriteGenre,
+                userDescription: args.userDescription,
+                phoneNumber: args.phoneNumber
+
             });
             return await user.save();
         },
-        updateUser: (parentt, args) => {
+        updateUser: async (parentt, args) => {
             if (!args.id) {
                 console.error('CCould not find user, status code 404');
                 return;
             }
-            const {
-                firstName,
-                lastName,
-                email
-            } = args.body;
             return User.findOneAndUpdate({
                 _id: args.id
             }, {
-                $set: {
-                    firstName,
-                    lastName,
-                    email
-                }
+                $set: args
             }, {
                 new: true
-            }, (err, User) => {
-                if (err) {
-                    console.error('Error ocurred whilst trying to update the user:', err)
-                }
-            });
+            })
         },
         addReview: (parent, args) => {
             let review = new Review({
@@ -114,21 +107,17 @@ const resolvers = {
             })
             return review
                 .save()
-                .then(result => {
-                    let arr = [];
-                    arr.push(User.findByIdAndUpdate(result.user.toString()));
-                    User.findById(result.user.toString())
+                .then(async result => {
+                    await User.findById(result.user.toString())
                         .then(result => {
                             result.reviews.push(review);
                             result.save();
                         })
-
-                    Movie.findByIdAndUpdate(result.movie.toString())
+                    await Movie.findById(result.movie.toString())
                         .then(result => {
                             result.reviews.push(review)
                             result.save();
                         })
-                    arr.push(Movie.findById(result.movie.toString()));
                     return review
                 })
 

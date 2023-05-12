@@ -35,6 +35,73 @@ async function testGetUser(iterations, userList) {
     return json;
 
 }
+async function testUpdateUserLimitedFields(iterations, userList) {
+    testArray = [];
+    ramArray = [];
+    cpuArray = [];
+    for (var i = 0; i < iterations; i++) {
+        const startTime = Date.now();
+        var response = await fetch(`http://localhost:8080/users?id=${userList.getUsers[i].id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "firstName": faker.name.firstName(),
+                "lastName": faker.name.lastName(),
+                "email": faker.internet.email()
+            })
+
+        })
+        const totalTime = Date.now() - startTime;
+        ramArray.push(JSON.parse(response.headers.get('performance')).ram);
+        cpuArray.push(JSON.parse(response.headers.get('performance')).cpu);
+        testArray.push(totalTime);
+    }
+    var json = {
+        testArr: testArray,
+        cpuArr: cpuArray,
+        ramArr: ramArray
+    }
+    return json;
+}
+async function testUpdateUserAllFields(iterations, userList) {
+    testArray = [];
+    ramArray = [];
+    cpuArray = [];
+    for (var i = 0; i < iterations; i++) {
+        const startTime = Date.now();
+        var response = await fetch(`http://localhost:8080/users?id=${userList.getUsers[i].id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "firstName": faker.name.firstName(),
+                "lastName": faker.name.lastName(),
+                "email": faker.internet.email(),
+                "dateOfBirth": Math.floor(Math.random() * (10000 - 1 + 1) + 1).toString(),
+                "location": faker.address.city(),
+                "favoriteGenre": faker.color.human(),
+                "userDescription": faker.lorem.paragraphs(),
+                "phoneNumber": Math.floor(Math.random() * (20000 - 1 + 1) + 1)
+            })
+
+        })
+        const totalTime = Date.now() - startTime;
+        ramArray.push(JSON.parse(response.headers.get('performance')).ram);
+        cpuArray.push(JSON.parse(response.headers.get('performance')).cpu);
+        testArray.push(totalTime);
+
+    }
+    var json = {
+        testArr: testArray,
+        cpuArr: cpuArray,
+        ramArr: ramArray
+    }
+    return json;
+}
+
 async function testGetAllUsers(iterations) {
     testArray = [];
     ramArray = [];
@@ -71,6 +138,43 @@ async function testAddUser(iterations) {
                 "firstName": faker.name.firstName(),
                 "lastName": faker.name.lastName(),
                 "email": faker.internet.email()
+            })
+
+        })
+        const totalTime = Date.now() - startTime;
+        ramArray.push(JSON.parse(response.headers.get('performance')).ram);
+        cpuArray.push(JSON.parse(response.headers.get('performance')).cpu);
+        testArray.push(totalTime);
+
+    }
+    var json = {
+        testArr: testArray,
+        cpuArr: cpuArray,
+        ramArr: ramArray
+    }
+    return json;
+}
+
+async function testAddUserAllFields(iterations) {
+    testArray = [];
+    ramArray = [];
+    cpuArray = [];
+    for (var i = 0; i < iterations; i++) {
+        const startTime = Date.now();
+        var response = await fetch(`http://localhost:8080/users`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "firstName": faker.name.firstName(),
+                "lastName": faker.name.lastName(),
+                "email": faker.internet.email(),
+                "dateOfBirth": Math.floor(Math.random() * (10000 - 1 + 1) + 1).toString(),
+                "location": faker.address.city(),
+                "favoriteGenre": faker.color.human(),
+                "userDescription": faker.lorem.paragraphs(),
+                "phoneNumber": Math.floor(Math.random() * (20000 - 1 + 1) + 1)
             })
 
         })
@@ -192,3 +296,6 @@ module.exports.testUpdateReview = testUpdateReview;
 module.exports.testAddReview = testAddReview;
 module.exports.testAddMovie = testAddMovie;
 module.exports.testGetAllUsers = testGetAllUsers;
+module.exports.testAddUserAllFields = testAddUserAllFields;
+module.exports.testUpdateUserAllFields = testUpdateUserAllFields;
+module.exports.testUpdateUserLimitedFields = testUpdateUserLimitedFields;

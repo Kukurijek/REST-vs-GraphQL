@@ -32,22 +32,77 @@ async function getUsersFnameLNameReviewsMovieName() {
     `;
   return graphQLClient.rawRequest(query);
 }
+async function updateUserFnameLnameEmail(id) {
+  const query = gql `
+  mutation UpdateUser($updateUserId: ID!, $firstName: String, $lastName: String, $email: String) {
+    updateUser(id: $updateUserId, firstName: $firstName, lastName: $lastName, email: $email) {
+      id
+    }
+  }
+  `
+  variables = {
+    "updateUserId": id,
+    "firstName": faker.name.firstName(),
+    "lastName": faker.name.lastName(),
+    "email": faker.internet.email()
+  }
+  return graphQLClient.rawRequest(query, variables);
+}
+async function updateUserAllFields(id) {
+  const query = gql `
+  mutation UpdateUser($updateUserId: ID!, $firstName: String, $lastName: String, $email: String, $dateOfBirth: String, $location: String, $favoriteGenre: String, $userDescription: String, $phoneNumber: Int) {
+    updateUser(id: $updateUserId, firstName: $firstName, lastName: $lastName, email: $email, dateOfBirth: $dateOfBirth, location: $location, favoriteGenre: $favoriteGenre, userDescription: $userDescription, phoneNumber: $phoneNumber) {
+      id
+    }
+  }
+  `
+  variables = {
+    "updateUserId": id,
+    "firstName": faker.name.firstName(),
+    "lastName": faker.name.lastName(),
+    "email": faker.internet.email(),
+    "dateOfBirth": Math.floor(Math.random() * (10000 - 1 + 1) + 1).toString(),
+    "location": faker.address.city(),
+    "favoriteGenre": faker.color.human(),
+    "userDescription": faker.lorem.paragraphs(),
+    "phoneNumber": Math.floor(Math.random() * (20000 - 1 + 1) + 1)
+  }
+  return graphQLClient.rawRequest(query, variables);
+}
+async function updateUserLimitedFields(id) {
+  const query = gql `
+  mutation UpdateUser($updateUserId: ID!, $firstName: String, $lastName: String, $email: String) {
+    updateUser(id: $updateUserId, firstName: $firstName, lastName: $lastName, email: $email) {
+      id
+    }
+  }
+  `
+  variables = {
+    "updateUserId": id,
+    "firstName": faker.name.firstName(),
+    "lastName": faker.name.lastName(),
+    "email": faker.internet.email()
+  }
+  return graphQLClient.rawRequest(query, variables);
+}
 async function getUserById(id) {
   const query = gql `
-    query GetUser($getUserId: ID!) {
-      getUser(id: $getUserId) {
-      firstName
+  query GetUser($getUserId: ID!) {
+    getUser(id: $getUserId) {
+      userDescription
+      phoneNumber
+      location
       lastName
+      id
+      firstName
+      favoriteGenre
+      email
+      dateOfBirth
       reviews {
-        body
-        description
-        movie {
-          name
-        }
-      }
-    
+        id
       }
     }
+  }
   `
   variables = {
     "getUserId": id
@@ -98,6 +153,29 @@ async function addUser() {
     "firstName": faker.name.firstName(),
     "lastName": faker.name.lastName(),
     "email": faker.internet.email()
+  }
+  return await graphQLClient.rawRequest(mutation, variables);
+}
+async function addMoreUsers() {
+
+}
+async function addUserAllFields() {
+  const mutation = gql `
+  mutation AddUser($firstName: String!, $lastName: String!, $email: String!, $dateOfBirth: String, $location: String, $favoriteGenre: String, $userDescription: String, $phoneNumber: Int) {
+    addUser(firstName: $firstName, lastName: $lastName, email: $email, dateOfBirth: $dateOfBirth, location: $location, favoriteGenre: $favoriteGenre, userDescription: $userDescription, phoneNumber: $phoneNumber) {
+      id
+    }
+  }
+  `
+  const variables = {
+    "firstName": faker.name.firstName(),
+    "lastName": faker.name.lastName(),
+    "email": faker.internet.email(),
+    "dateOfBirth": Math.floor(Math.random() * (10000 - 1 + 1) + 1).toString(),
+    "location": faker.address.city(),
+    "favoriteGenre": faker.color.human(),
+    "userDescription": faker.lorem.paragraphs(),
+    "phoneNumber": Math.floor(Math.random() * (20000 - 1 + 1) + 1)
   }
   return await graphQLClient.rawRequest(mutation, variables);
 }
@@ -166,3 +244,7 @@ exports.getUserById = getUserById;
 exports.getMovies = getMovies;
 exports.getReviews = getReviews;
 exports.updateReview = updateReview;
+exports.updateUserFnameLnameEmail = updateUserFnameLnameEmail;
+exports.updateUserAllFields = updateUserAllFields;
+exports.addUserAllFields = addUserAllFields;
+exports.updateUserLimitedFields = updateUserLimitedFields;

@@ -68,6 +68,64 @@ async function testAddUser(iterations) {
     }
     return json;
 }
+async function testUpdateUserAllFields(iterations, userList) {
+    testArray = [];
+    ramArray = [];
+    cpuArray = [];
+    for (var i = 0; i < iterations; i++) {
+        const startTime = Date.now();
+        var test = await gqlQueries.updateUserAllFields(userList.getUsers[i].id);
+        const totalTime = Date.now() - startTime;
+        ramArray.push(JSON.parse(test.headers.get('performance')).ram);
+        cpuArray.push(JSON.parse(test.headers.get('performance')).cpu);
+        testArray.push(totalTime);
+    }
+    var json = {
+        testArr: testArray,
+        cpuArr: cpuArray,
+        ramArr: ramArray
+    }
+    return json;
+}
+async function testUpdateUserLimitedFields(iterations, userList) {
+    testArray = [];
+    ramArray = [];
+    cpuArray = [];
+    for (var i = 0; i < iterations; i++) {
+        const startTime = Date.now();
+        var test = await gqlQueries.updateUserLimitedFields(userList.getUsers[i].id);
+        const totalTime = Date.now() - startTime;
+        ramArray.push(JSON.parse(test.headers.get('performance')).ram);
+        cpuArray.push(JSON.parse(test.headers.get('performance')).cpu);
+        testArray.push(totalTime);
+    }
+    var json = {
+        testArr: testArray,
+        cpuArr: cpuArray,
+        ramArr: ramArray
+    }
+    return json;
+}
+
+async function testAddUserAllFields(iterations) {
+    testArray = [];
+    ramArray = [];
+    cpuArray = [];
+    for (var i = 0; i < iterations; i++) {
+        const startTime = Date.now();
+        var test = await gqlQueries.addUserAllFields();
+        const totalTime = Date.now() - startTime;
+        ramArray.push(JSON.parse(test.headers.get('performance')).ram);
+        cpuArray.push(JSON.parse(test.headers.get('performance')).cpu);
+        testArray.push(totalTime);
+    }
+    var json = {
+        testArr: testArray,
+        cpuArr: cpuArray,
+        ramArr: ramArray
+    }
+    return json;
+}
 async function testAddMovie(iterations) {
     testArray = [];
     ramArray = [];
@@ -135,3 +193,6 @@ module.exports.testAddMovie = testAddMovie;
 module.exports.testAddReview = testAddReview;
 module.exports.testUpdateReview = testUpdateReview;
 module.exports.testGetAllUsers = testGetAllUsers;
+module.exports.testAddUserAllFields = testAddUserAllFields;
+module.exports.testUpdateUserAllFields = testUpdateUserAllFields;
+module.exports.testUpdateUserLimitedFields = testUpdateUserLimitedFields;

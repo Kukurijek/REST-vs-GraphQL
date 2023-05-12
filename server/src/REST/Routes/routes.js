@@ -95,6 +95,13 @@ api.post('/users', (req, res) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
+        dateOfBirth: req.body.dateOfBirth,
+        location: req.body.location,
+        favoriteGenre: req.body.favoriteGenre,
+        userDescription: req.body.userDescription,
+        phoneNumber: req.body.phoneNumber,
+
+
     })
     new_user.save().then(saver_user => {
         res.json(saver_user);
@@ -176,12 +183,22 @@ api.put('/users', (req, res) => {
     const {
         firstName,
         lastName,
-        email
+        email,
+        dateOfBirth,
+        location,
+        favoriteGenre,
+        userDescription,
+        phoneNumber
     } = req.body;
     User.findByIdAndUpdate(req.query.id, {
         firstName,
         lastName,
-        email
+        email,
+        dateOfBirth,
+        location,
+        favoriteGenre,
+        userDescription,
+        phoneNumber
     }, {
         new: true
     }).then(updateed_user => {
@@ -199,6 +216,7 @@ api.put('/users', (req, res) => {
         });
     })
 })
+
 
 // Updatte movie
 api.put('/movies', (req, res) => {

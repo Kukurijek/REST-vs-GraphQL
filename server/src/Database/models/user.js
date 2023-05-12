@@ -7,10 +7,18 @@ let userSchema = new Schema({
     firstName: String,
     lastName: String,
     email: String,
+    dateOfBirth: String,
+    location: String,
     reviews: [{
         type: Schema.Types.ObjectId,
         ref: "Review"
-    }]
+    }],
+    favoriteGenre: String,
+    userDescription: String,
+    phoneNumber: Number,
+
+
+
 
 })
 

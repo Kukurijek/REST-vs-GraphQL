@@ -10,6 +10,7 @@ const {
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const http = require('http');
+const si = require('systeminformation');
 const {
     ApolloServer
 } = require('apollo-server-express');
@@ -65,6 +66,8 @@ async function startServer() {
         }
         next();
     })
+
+
 
     await server.start();
     server.applyMiddleware({

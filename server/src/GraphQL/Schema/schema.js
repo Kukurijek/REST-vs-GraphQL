@@ -24,7 +24,13 @@ const typeDefs = gql `
     firstName: String!
     lastName: String!
     email: String!
+    dateOfBirth: String
+    location: String
     reviews: [Review]
+    favoriteGenre: String
+    userDescription: String
+    phoneNumber: Int
+
   
  } 
  type Query { 
@@ -36,11 +42,11 @@ const typeDefs = gql `
    getReview(id: ID!): Review
  } 
  type Mutation {
-     addUser(firstName: String!, lastName: String!, email: String!) : User
+     addUser(firstName: String!, lastName: String!, email: String!, dateOfBirth: String, location: String, favoriteGenre: String, userDescription: String, phoneNumber: Int) : User
      addReview(title: String!, description: String!, body: String!, userID: ID!, movieID: ID!) : Review
      addMovie(name: String!, producer: String!, rating: Float!): Movie 
      updateReview(id: ID!, title: String!, description: String, body: String!) : Review
-     updateUser(id: ID!, firstName: String, lastName: String, email: String) : User
+     updateUser(id: ID!, firstName: String, lastName: String, email: String, dateOfBirth: String, location: String, favoriteGenre: String, userDescription: String, phoneNumber: Int) : User
      updateMovie(id: ID!, name: String!, producer: String!, rating: Float): Movie 
      deleteMovie(id: ID!): Movie
      deleteUser(id: ID!): User
