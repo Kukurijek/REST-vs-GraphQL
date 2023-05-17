@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 
         const ramUsed = memoryUsage().heapUsed / 1024 / 1024
         const endUsage = process.cpuUsage();
-        var totalUsage = endUsage.user - startUsage.user
+        const totalUsage = endUsage.user - startUsage.user
 
         res.send = oldResponse;
         performance = {

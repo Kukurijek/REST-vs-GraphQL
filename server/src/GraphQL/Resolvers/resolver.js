@@ -19,20 +19,12 @@ const resolvers = {
         getUsers: async (parent, args) => {
             return User.find({}).populate({
                 path: 'reviews',
-                populate: {
-                    path: 'movie',
-                    model: 'Movie'
-                }
-            });
+            }).limit(args.limit);
 
         },
         getUser: async (parent, args) => {
             return User.findById(args.id).populate({
                 path: 'reviews',
-                populate: {
-                    path: 'movie',
-                    model: 'Movie'
-                }
             })
         },
         getReviews: async (parent, args) => {
@@ -51,9 +43,9 @@ const resolvers = {
             });
             return await movie.save();
         },
-        updateMovie: (parent, args) => {
+        updateMovie: async (parent, args) => {
             if (!args.id) return;
-            return Movie.findOneAndUpdate({
+            return Movie.findByIdAndUpdate({
                 _id: args.id
             }, {
                 $set: {
@@ -63,10 +55,6 @@ const resolvers = {
                 }
             }, {
                 new: true
-            }, (err, Movie) => {
-                if (err) {
-                    console.log('Something went wrong when updating the movie');
-                }
             });
         },
         addUser: async (parent, args) => {
@@ -123,40 +111,32 @@ const resolvers = {
 
 
         },
-        updateReview: (parent, args) => {
+        updateReview: async (parent, args) => {
             if (!args.id) {
                 console.error('No such review. status code 404');
                 return;
             }
-            const {
-                title,
-                description,
-                body
-            } = args.body;
-
-            Review.findOneAndUpdate({
+            return Review.findByIdAndUpdate({
                 _id: args.id
             }, {
-                $set: {
-                    title,
-                    description,
-                    body
-                }
+                $set: args
             }, {
                 new: true
 
             });
         },
         //Delete review
-        deleteReview: (parent, args) => {
+        deleteReview: async (parent, args) => {
             if (!args.id) {
                 return;
             }
-            Review.findByIdAndDelete(args.id).then(removed_review => {
+            return Review.findByIdAndDelete({
+                _id: args.id
+            }).then(async removed_review => {
                 if (!removed_review) {
-                    console.error("")
+                    return new Error('Review does not exists')
                 } else {
-                    Promise.all([
+                    await Promise.all([
                         User.updateOne({
                             _id: removed_review.user
                         }, {
@@ -171,11 +151,81 @@ const resolvers = {
                                 reviews: args.id
                             }
                         })
-                    ]).then(() => {
-                        return removed_review;
-                    }).catch(error => {
-                        console.error('Error occured trying to remove references: ', error);
+                    ])
+                    return removed_review
+                }
+            })
+
+
+        },
+        deleteMovie: async (parent, args) => {
+            if (!args.id) {
+                return;
+            }
+            return Movie.findByIdAndDelete({
+                _id: args.id
+            }).then(async removed_movie => {
+                if (!removed_movie) {
+                    return new Error('Movie does not exists')
+                } else {
+                    const review_ids = removed_movie.reviews;
+                    await User.updateMany({
+                        reviews: {
+                            $in: review_ids
+                        }
+                    }, {
+                        $pull: {
+                            reviews: {
+                                $in: review_ids
+                            }
+                        }
+                    }).then(async () => {
+                        await Review.deleteMany({
+                            _id: {
+                                $in: review_ids
+                            }
+                        }).catch(error => {
+                            connsole.error('Error occured deleting movie reviews: ', error);
+                            res.status(500).json({
+                                error: 'Internal server error'
+                            });
+                        })
+                        return removed_movie
                     })
+
+                }
+            })
+        },
+        deleteUser: async (parent, args) => {
+            if (!args.id) {
+                return;
+            }
+            return User.findByIdAndDelete({
+                _id: args.id
+            }).then(async removed_user => {
+                if (!removed_user) {
+                    return new Error('User not found')
+                } else {
+                    const review_ids = removed_user.reviews;
+                    await Movie.updateMany({
+                        reviews: {
+                            $in: review_ids
+                        }
+                    }, {
+                        $pull: {
+                            reviews: {
+                                $in: review_ids
+                            }
+                        }
+                    }).then(async () => {
+                        await Review.deleteMany({
+                            _id: {
+                                $in: review_ids
+                            }
+                        });
+                        return removed_user;
+                    })
+
                 }
             })
         }

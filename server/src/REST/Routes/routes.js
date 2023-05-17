@@ -27,7 +27,7 @@ api.get('/users/:id', (req, res) => {
 
 // Fetch all users in db
 api.get('/users', (req, res) => {
-    User.find({}).populate('reviews').then(users => {
+    User.find({}).populate('reviews').limit(req.query.limit).then(users => {
         res.json(users);
     })
 })
@@ -225,7 +225,9 @@ api.put('/movies', (req, res) => {
         rating,
         producer
     } = req.body;
-    Movie.findByIdAndUpdate(req.query.id, {
+    Movie.findByIdAndUpdate({
+        _id: req.query.id
+    }, {
         name,
         rating,
         producer
@@ -254,10 +256,10 @@ api.put('/reviews', (req, res) => {
         description,
         body
     } = req.body;
-    Review.findByIdAndUpdate(req.query.id, {
-        title,
-        description,
-        body
+    Review.findByIdAndUpdate({
+        _id: req.query.id
+    }, {
+        $set: req.body
     }, {
         new: true
     }).then(updated_review => {

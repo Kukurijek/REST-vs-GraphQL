@@ -18,9 +18,11 @@ const {
     start
 } = require('repl');
 const {
-    cpuUsage,
     memoryUsage
 } = require('process');
+const {
+    cpuUsage
+} = require('node:process')
 const {
     set
 } = require('./rest');
@@ -45,19 +47,18 @@ async function startServer() {
     app.use(bodyParser.json());
     app.use('*', cors());
     app.use((req, res, next) => {
-        const startUsage = process.cpuUsage()
+        const startUsage = cpuUsage()
         let oldResponse = res.send;
         res.send = async (data) => {
             const ramUsed = memoryUsage().heapUsed / 1024 / 1024
-            const endUsage = process.cpuUsage();
-            var totalUsage = endUsage.user - startUsage.user
+            const endUsage = cpuUsage();
+            const totalUsage = endUsage.user - startUsage.user
             res.send = oldResponse;
             performance = {
                 ram: ramUsed.toFixed(0),
                 cpu: totalUsage
             }
             res.set('performance', JSON.stringify(performance))
-
             return res.send(data);
 
 
