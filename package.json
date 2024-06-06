@@ -4,7 +4,7 @@
   "description": "",
   "main": "./src/index.js",
   "scripts": {
-    "test": "node client/index.js",
+    "test": "cd client && node index.js && cd ..",
     "start": "nodemon server/index.js"
   },
   "author": "",
