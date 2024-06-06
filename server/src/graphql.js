@@ -61,13 +61,9 @@ async function startServer() {
             res.set('performance', JSON.stringify(performance))
             return res.send(data);
 
-
-
-
         }
         next();
     })
-
 
 
     await server.start();
@@ -83,10 +79,5 @@ async function startServer() {
 
 
 }
-
-
-
-
-
 
 module.exports.startServer = startServer;

@@ -14,12 +14,9 @@ var gqlRestimeArr = [];
 var gqlCpuArr = [];
 var gqlRamArr = [];
 
-
 var restRestimeArr = [];
 var restCpuArr = [];
 var restRamArr = [];
-
-
 
 async function populateLists() {
     //users = await gqlQueries.getUsersFnameLNameReviewsMovieName();
@@ -29,7 +26,6 @@ async function populateLists() {
     for (var i = 0; i < 250; i++) {
         await gqlQueries.getUserById("646365ce182ba4bbb0dc157d");
     }
-
 
     //await doTest6Queries(100);
     //reviews = await gqlQueries.getReviews();
@@ -47,7 +43,6 @@ async function populateLists() {
     //sleep(5000);
     await testGetSpecificUserAllFields(500, "646365ce182ba4bbb0dc157d");
     await testGetSpecificUserLimitedFields(500, "646365ce182ba4bbb0dc157d");
-
 
     //userList = await fetcher.getUserList();
     //movieList = await fetcher.getMovieList();

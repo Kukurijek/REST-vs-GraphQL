@@ -17,9 +17,6 @@ let userSchema = new Schema({
     userDescription: String,
     phoneNumber: Number,
 
-
-
-
 })
 
 var Users = mongoose.model('User', userSchema);
