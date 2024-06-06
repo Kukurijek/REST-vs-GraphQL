@@ -559,49 +559,6 @@ async function updateMovie(movieId) {
   }
   return await graphQLClient.rawRequest(mutation, variables);
 }
-async function deleteMovie(movieId) {
-  const mutation = gql `
-    mutation DeleteMovie($deleteMovieId: ID!) {
-      deleteMovie(id: $deleteMovieId) {
-        id
-      }
-    }
-    `
-  const variables = {
-    "deleteMovieId": movieId
-  }
-  return await graphQLClient.rawRequest(mutation, variables);
-}
-async function deleteUser(userId) {
-  const mutation = gql `
-    mutation DeleteUser($deleteUserId: ID!) {
-      deleteUser(id: $deleteUserId) {
-        id
-      }
-    }
-    `
-
-  const variables = {
-    "deleteUserId": userId
-  }
-  return await graphQLClient.rawRequest(mutation, variables);
-
-}
-async function deleteReview(reviewId) {
-  const mutation = gql `
-    mutation DeleteReview($deleteReviewId: ID!) {
-      deleteReview(id: $deleteReviewId) {
-        id
-      }
-    }
-    `
-  const variables = {
-    "deleteReviewId": reviewId
-  }
-
-  return await graphQLClient.rawRequest(mutation, variables);
-}
-
 
 addUser().catch((error) => console.error(error))
 
@@ -619,9 +576,6 @@ exports.addUserAllFields = addUserAllFields;
 exports.updateUserLimitedFields = updateUserLimitedFields;
 exports.updateMovie = updateMovie;
 exports.addUserBigData = addUserBigData;
-exports.deleteMovie = deleteMovie;
-exports.deleteUser = deleteUser;
-exports.deleteReview = deleteReview;
 exports.createMovieAndTwoReviews = createMovieAndTwoReviews;
 exports.createMovieAndTwoReviewsBatch = createMovieAndTwoReviewsBatch;
 exports.createTwoMoviesTwoUsersTwoReviews = createTwoMoviesTwoUsersTwoReviews;

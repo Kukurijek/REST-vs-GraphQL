@@ -31,7 +31,6 @@ async function populateLists() {
     }
 
 
-
     //await doTest6Queries(100);
     //reviews = await gqlQueries.getReviews();
     //reviews = reviews.data;
@@ -50,10 +49,6 @@ async function populateLists() {
     await testGetSpecificUserLimitedFields(500, "646365ce182ba4bbb0dc157d");
 
 
-
-
-
-
     //userList = await fetcher.getUserList();
     //movieList = await fetcher.getMovieList();
 }
@@ -61,6 +56,7 @@ async function populateLists() {
 populateLists();
 
 async function testGetSpecificUserAllFields(iterations, userID) {
+    console.log("Testing getSpecificUserAllFields");
     clearArrays();
     console.log("Testing GQL");
     let json;
@@ -129,60 +125,8 @@ async function doTest6Queries(iterations) {
     testWriter.saveFileToCsvBatching(gqlRestimeArr, restRestimeArr, restCpuArr, restRamArr, `../Testresults/do6queriesbatch_iterations_${iterations}.csv`);
 }
 
-async function doDeleteReview(iterations) {
-    clearArrays();
-    console.log("Testing GQL");
-    let json;
-    json = await gqlTester.testDeleteReview(iterations, reviews);
-    gqlRestimeArr = gqlRestimeArr.concat(json.testArr);
-    gqlCpuArr = gqlCpuArr.concat(json.cpuArr);
-    gqlRamArr = gqlRamArr.concat(json.ramArr);
-
-    console.log("Testing Rest")
-    json = await restTester.testDeleteReview(iterations, reviews);
-    restRestimeArr = restRestimeArr.concat(json.testArr);
-    restCpuArr = restCpuArr.concat(json.cpuArr);
-    restRamArr = restRamArr.concat(json.ramArr);
-
-    testWriter.saveFileToCsv(gqlRestimeArr, gqlCpuArr, gqlRamArr, restRestimeArr, restCpuArr, restRamArr, `../Testresults/deleteReview_iterations_${iterations}.csv`);
-}
-async function doDeleteUser(iterations) {
-    clearArrays();
-    console.log("Testing GQL");
-    let json;
-    json = await gqlTester.testDeleteUser(iterations, users);
-    gqlRestimeArr = gqlRestimeArr.concat(json.testArr);
-    gqlCpuArr = gqlCpuArr.concat(json.cpuArr);
-    gqlRamArr = gqlRamArr.concat(json.ramArr);
-
-    console.log("Testing Rest")
-    json = await restTester.testDeleteUser(iterations, users);
-    restRestimeArr = restRestimeArr.concat(json.testArr);
-    restCpuArr = restCpuArr.concat(json.cpuArr);
-    restRamArr = restRamArr.concat(json.ramArr);
-
-    testWriter.saveFileToCsv(gqlRestimeArr, gqlCpuArr, gqlRamArr, restRestimeArr, restCpuArr, restRamArr, `../Testresults/deleteUser_iterations_${iterations}.csv`);
-}
-async function doDeleteMovie(iterations) {
-    clearArrays();
-    console.log("Testing GQL");
-    let json;
-    json = await gqlTester.testDeleteMovie(iterations, movies);
-    gqlRestimeArr = gqlRestimeArr.concat(json.testArr);
-    gqlCpuArr = gqlCpuArr.concat(json.cpuArr);
-    gqlRamArr = gqlRamArr.concat(json.ramArr);
-
-    console.log("Testing Rest")
-    json = await restTester.testDeleteMovie(iterations, movies);
-    restRestimeArr = restRestimeArr.concat(json.testArr);
-    restCpuArr = restCpuArr.concat(json.cpuArr);
-    restRamArr = restRamArr.concat(json.ramArr);
-
-    testWriter.saveFileToCsv(gqlRestimeArr, gqlCpuArr, gqlRamArr, restRestimeArr, restCpuArr, restRamArr, `../Testresults/deleteMovie_iterations_${iterations}.csv`);
-}
-
-
 async function getAllUsers200Iterations() {
+    console.log("Testing getAllUsers");
     clearArrays();
 
     let json = await gqlTester.testGetAllUsers(20);
@@ -233,23 +177,7 @@ async function doAddUserAllFields1000Iterations(iterations) {
     testWriter.saveFileToCsv(gqlRestimeArr, gqlCpuArr, gqlRamArr, restRestimeArr, restCpuArr, restRamArr, `../Testresults/AddUserAllFields_iterations_${iterations}.csv`);
 
 }
-async function doUpdateUserLimitedFields1000iterations(iterations) {
-    clearArrays();
-    console.log("Testing GQL");
-    let json;
-    json = await gqlTester.testUpdateUserLimitedFields(iterations, users);
-    gqlRestimeArr = gqlRestimeArr.concat(json.testArr);
-    gqlCpuArr = gqlCpuArr.concat(json.cpuArr);
-    gqlRamArr = gqlRamArr.concat(json.ramArr);
 
-    console.log("Testing Rest")
-    json = await restTester.testUpdateUserLimitedFields(iterations, users);
-    restRestimeArr = restRestimeArr.concat(json.testArr);
-    restCpuArr = restCpuArr.concat(json.cpuArr);
-    restRamArr = restRamArr.concat(json.ramArr);
-
-    testWriter.saveFileToCsv(gqlRestimeArr, gqlCpuArr, gqlRamArr, restRestimeArr, restCpuArr, restRamArr, `../Testresults/updateUser_iterations_${iterations}.csv`);
-}
 async function doAddUserBigData(iterations) {
     clearArrays();
     console.log("Testing GQL");
@@ -268,25 +196,9 @@ async function doAddUserBigData(iterations) {
     testWriter.saveFileToCsv(gqlRestimeArr, gqlCpuArr, gqlRamArr, restRestimeArr, restCpuArr, restRamArr, `../Testresults/addUserBigdata_iterations_${iterations}.csv`);
 
 }
-async function doUpdateUserAllFields1000iterations() {
-    clearArrays();
-    console.log("Testing GQL");
-    let json;
-    json = await gqlTester.testUpdateUserAllFields(5000, users);
-    gqlRestimeArr = gqlRestimeArr.concat(json.testArr);
-    gqlCpuArr = gqlCpuArr.concat(json.cpuArr);
-    gqlRamArr = gqlRamArr.concat(json.ramArr);
 
-    console.log("Testing Rest")
-    json = await restTester.testUpdateUserAllFields(5000, users);
-    restRestimeArr = restRestimeArr.concat(json.testArr);
-    restCpuArr = restCpuArr.concat(json.cpuArr);
-    restRamArr = restRamArr.concat(json.ramArr);
-
-    testWriter.saveFileToCsv(gqlRestimeArr, gqlCpuArr, gqlRamArr, restRestimeArr, restCpuArr, restRamArr, "../Testresults/updateUserAllFields_iterations_5000.csv");
-
-}
 async function doAddMovie(iterations) {
+    console.log("Testing addMovie");
     clearArrays();
     console.log("Testing GQL");
     let json;
@@ -304,24 +216,6 @@ async function doAddMovie(iterations) {
     testWriter.saveFileToCsv(gqlRestimeArr, gqlCpuArr, gqlRamArr, restRestimeArr, restCpuArr, restRamArr, `../Testresults/addMovie_iterations_${iterations}.csv`);
 
 
-
-}
-async function doTestUpdateMovie(iterations) {
-    clearArrays();
-    console.log("Testing GQL");
-    let json;
-    json = await gqlTester.testUpdateMovie(iterations, movies);
-    gqlRestimeArr = gqlRestimeArr.concat(json.testArr);
-    gqlCpuArr = gqlCpuArr.concat(json.cpuArr);
-    gqlRamArr = gqlRamArr.concat(json.ramArr);
-
-    console.log("Testing Rest")
-    json = await restTester.testUpdateMovie(iterations, movies);
-    restRestimeArr = restRestimeArr.concat(json.testArr);
-    restCpuArr = restCpuArr.concat(json.cpuArr);
-    restRamArr = restRamArr.concat(json.ramArr);
-
-    testWriter.saveFileToCsv(gqlRestimeArr, gqlCpuArr, gqlRamArr, restRestimeArr, restCpuArr, restRamArr, `../Testresults/updateMovie_iterations_${iterations}.csv`);
 
 }
 
@@ -343,24 +237,6 @@ async function doAddReview(iterations) {
     testWriter.saveFileToCsv(gqlRestimeArr, gqlCpuArr, gqlRamArr, restRestimeArr, restCpuArr, restRamArr, `../Testresults/addReview_iterations_${iterations}.csv`);
 
 
-
-}
-async function doUpdateReview(iterations) {
-    clearArrays();
-    console.log("Testing GQL");
-    let json;
-    json = await gqlTester.testUpdateReview(iterations, reviews);
-    gqlRestimeArr = gqlRestimeArr.concat(json.testArr);
-    gqlCpuArr = gqlCpuArr.concat(json.cpuArr);
-    gqlRamArr = gqlRamArr.concat(json.ramArr);
-
-    console.log("Testing Rest")
-    json = await restTester.testUpdateReview(iterations, reviews);
-    restRestimeArr = restRestimeArr.concat(json.testArr);
-    restCpuArr = restCpuArr.concat(json.cpuArr);
-    restRamArr = restRamArr.concat(json.ramArr);
-
-    testWriter.saveFileToCsv(gqlRestimeArr, gqlCpuArr, gqlRamArr, restRestimeArr, restCpuArr, restRamArr, `../Testresults/updateReview_iterations_${iterations}.csv`);
 
 }
 

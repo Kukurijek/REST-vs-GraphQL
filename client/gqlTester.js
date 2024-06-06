@@ -8,8 +8,6 @@ var ramArray = [];
 
 
 
-
-
 async function testGetUser(iterations, userList) {
     testArray = [];
     ramArray = [];
@@ -221,64 +219,7 @@ async function testUpdateMovie(iterations, movieList) {
     }
     return json;
 }
-async function testDeleteUser(iterations, userList) {
-    testArray = [];
-    ramArray = [];
-    cpuArray = [];
-    for (var i = 0; i < iterations; i++) {
-        const startTime = Date.now();
-        var test = await gqlQueries.deleteUser(userList.getUsers[i].id);
-        const totalTime = Date.now() - startTime;
-        ramArray.push(JSON.parse(test.headers.get('performance')).ram);
-        cpuArray.push(JSON.parse(test.headers.get('performance')).cpu);
-        testArray.push(totalTime);
-    }
-    var json = {
-        testArr: testArray,
-        cpuArr: cpuArray,
-        ramArr: ramArray
-    }
-    return json;
-}
-async function testDeleteReview(iterations, reviewList) {
-    testArray = [];
-    ramArray = [];
-    cpuArray = [];
-    for (var i = 0; i < iterations; i++) {
-        const startTime = Date.now();
-        var test = await gqlQueries.deleteReview(reviewList.getReviews[i].id);
-        const totalTime = Date.now() - startTime;
 
-        ramArray.push(JSON.parse(test.headers.get('performance')).ram);
-        cpuArray.push(JSON.parse(test.headers.get('performance')).cpu);
-        testArray.push(totalTime);
-    }
-    var json = {
-        testArr: testArray,
-        cpuArr: cpuArray,
-        ramArr: ramArray
-    }
-    return json;
-}
-async function testDeleteMovie(iterations, movieList) {
-    testArray = [];
-    ramArray = [];
-    cpuArray = [];
-    for (var i = 0; i < iterations; i++) {
-        const startTime = Date.now();
-        var test = await gqlQueries.deleteMovie(movieList.getMovies[i].id);
-        const totalTime = Date.now() - startTime;
-        ramArray.push(JSON.parse(test.headers.get('performance')).ram);
-        cpuArray.push(JSON.parse(test.headers.get('performance')).cpu);
-        testArray.push(totalTime);
-    }
-    var json = {
-        testArr: testArray,
-        cpuArr: cpuArray,
-        ramArr: ramArray
-    }
-    return json;
-}
 async function test6Queries(iterations, userList, movieList) {
     testArray = [];
     ramArray = [];
@@ -372,9 +313,6 @@ module.exports.testUpdateUserAllFields = testUpdateUserAllFields;
 module.exports.testUpdateUserLimitedFields = testUpdateUserLimitedFields;
 module.exports.testUpdateMovie = testUpdateMovie;
 module.exports.testAddUserBigData = testAddUserBigData;
-module.exports.testDeleteUser = testDeleteUser;
-module.exports.testDeleteMovie = testDeleteMovie;
-module.exports.testDeleteReview = testDeleteReview;
 module.exports.test6Queries = test6Queries;
 module.exports.testGetSpecificUserAllFields = testGetSpecificUserAllFields;
 module.exports.testGetSpecificUserLimitedFields = testGetSpecificUserLimitedFields;

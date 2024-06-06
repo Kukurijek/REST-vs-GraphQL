@@ -369,84 +369,6 @@ async function testUpdateMovie(iterations, movieList) {
     return json;
 }
 
-async function testDeleteUser(iterations, userList) {
-    testArray = [];
-    ramArray = [];
-    cpuArray = [];
-    for (var i = iterations + 1; i < iterations * 2; i++) {
-
-        const startTime = Date.now();
-        var response = await fetch(`http://localhost:8080/users?id=${userList.getUsers[i].id}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json"
-            },
-        })
-        const totalTime = Date.now() - startTime;
-        ramArray.push(JSON.parse(response.headers.get('performance')).ram);
-        cpuArray.push(JSON.parse(response.headers.get('performance')).cpu);
-        testArray.push(totalTime);
-    }
-
-    var json = {
-        testArr: testArray,
-        cpuArr: cpuArray,
-        ramArr: ramArray
-    }
-    return json;
-}
-async function testDeleteMovie(iterations, movieList) {
-    testArray = [];
-    ramArray = [];
-    cpuArray = [];
-    for (var i = iterations + 1; i < iterations * 2; i++) {
-
-        const startTime = Date.now();
-        var response = await fetch(`http://localhost:8080/movies?id=${movieList.getMovies[i].id}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json"
-            },
-        })
-        const totalTime = Date.now() - startTime;
-        ramArray.push(JSON.parse(response.headers.get('performance')).ram);
-        cpuArray.push(JSON.parse(response.headers.get('performance')).cpu);
-        testArray.push(totalTime);
-    }
-
-    var json = {
-        testArr: testArray,
-        cpuArr: cpuArray,
-        ramArr: ramArray
-    }
-    return json;
-}
-async function testDeleteReview(iterations, reviewList) {
-    testArray = [];
-    ramArray = [];
-    cpuArray = [];
-    for (var i = iterations + 1; i < iterations * 2; i++) {
-
-        const startTime = Date.now();
-        var response = await fetch(`http://localhost:8080/reviews?id=${reviewList.getReviews[i].id}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json"
-            },
-        })
-        const totalTime = Date.now() - startTime;
-        ramArray.push(JSON.parse(response.headers.get('performance')).ram);
-        cpuArray.push(JSON.parse(response.headers.get('performance')).cpu);
-        testArray.push(totalTime);
-    }
-
-    var json = {
-        testArr: testArray,
-        cpuArr: cpuArray,
-        ramArr: ramArray
-    }
-    return json;
-}
 async function test6Queries(iterations, userList, movieList) {
     testArray = [];
     ramArray = [];
@@ -557,10 +479,6 @@ async function test6Queries(iterations, userList, movieList) {
 }
 
 
-
-
-
-
 async function testCreateMovieTwoReviews(iterations, userList, movieList) {
     testArray = [];
     ramArray = [];
@@ -641,9 +559,6 @@ module.exports.testAddUserAllFields = testAddUserAllFields;
 module.exports.testUpdateUserAllFields = testUpdateUserAllFields;
 module.exports.testUpdateUserLimitedFields = testUpdateUserLimitedFields;
 module.exports.testUpdateMovie = testUpdateMovie;
-module.exports.testDeleteMovie = testDeleteMovie;
-module.exports.testDeleteUser = testDeleteUser;
-module.exports.testDeleteReview = testDeleteReview;
 module.exports.testAddUserBigData = testAddUserBigData;
 module.exports.testCreateMovieTwoReviews = testCreateMovieTwoReviews;
 module.exports.test6Queries = test6Queries;
