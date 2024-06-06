@@ -83,8 +83,8 @@ async function testGetSpecificUserLimitedFields(iterations, userID) {
     let json;
     json = await gqlTester.testGetSpecificUserLimitedFields(iterations, userID);
     gqlRestimeArr = gqlRestimeArr.concat(json.testArr);
-    gqlCpuArr = restCpuArr.concat(json.cpuArr);
-    gqlRamArr = restRamArr.concat(json.ramArr);
+    gqlCpuArr = gqlCpuArr.concat(json.cpuArr);
+    gqlRamArr = gqlRamArr.concat(json.ramArr);
 
     console.log("Testing Rest")
     json = await restTester.testGetSpecificUser(iterations, userID);
