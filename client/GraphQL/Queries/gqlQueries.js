@@ -232,8 +232,6 @@ async function createMovieAndTwoReviews(userId, movieID) {
     
   }
 
-
-  
     `
   variables = {
     "name": faker.color.human(),
@@ -251,9 +249,6 @@ async function createMovieAndTwoReviews(userId, movieID) {
     "title2": faker.color.human(),
 
   }
-
-
-
 
   return await graphQLClient.rawRequest(queryCreateMovie, variables)
 

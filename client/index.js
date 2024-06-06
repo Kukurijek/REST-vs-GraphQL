@@ -32,7 +32,7 @@ async function populateLists() {
     //reviews = reviews.data;
 
     //doDifferentTasks1000Iterations();
-    //getAllUsers200Iterations();
+    getAllUsers200Iterations();
 
     //doAddUserAllFields1000Iterations();
     //doAddUserLimitedFields1000Iterations();
@@ -41,8 +41,8 @@ async function populateLists() {
     //doUpdateUserAllFields1000iterations();
     //doAddReview(10000);
     //sleep(5000);
-    await testGetSpecificUserAllFields(500, "646365ce182ba4bbb0dc157d");
-    await testGetSpecificUserLimitedFields(500, "646365ce182ba4bbb0dc157d");
+    //await testGetSpecificUserAllFields(500, "646365ce182ba4bbb0dc157d");
+    //await testGetSpecificUserLimitedFields(500, "646365ce182ba4bbb0dc157d");
 
     //userList = await fetcher.getUserList();
     //movieList = await fetcher.getMovieList();
@@ -69,6 +69,7 @@ async function testGetSpecificUserAllFields(iterations, userID) {
     testWriter.saveFileToCsv(gqlRestimeArr, gqlCpuArr, gqlRamArr, restRestimeArr, restCpuArr, restRamArr, `../Testresults/getSpecificUserAllFields_iterations_${iterations}.csv`);
 }
 async function testGetSpecificUserLimitedFields(iterations, userID) {
+    console.log("Testing getSpecificUserLimitedFields");
     clearArrays();
     console.log("Testing GQL");
     let json;
