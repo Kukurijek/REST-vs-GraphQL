@@ -9,8 +9,6 @@ const {
 let movieList = [];
 let userList = [];
 
-
-
 function writetoFile(users, movies) {
 
     const listOfFiles = [{
@@ -35,8 +33,6 @@ function writetoFile(users, movies) {
         });
     }
 }
-
-
 
 async function getMovieList() {
     var data = fs.readFileSync('./helpers/movieList.json')

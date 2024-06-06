@@ -6,8 +6,6 @@ var cpuArray = [];
 var ramArray = [];
 
 
-
-
 async function testGetUser(iterations, userList) {
     testArray = [];
     ramArray = [];
