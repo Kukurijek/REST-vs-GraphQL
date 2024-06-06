@@ -36,8 +36,3 @@ scenarios:
              - json: "$.data.getUser"
                as: body
             log: "{{body}}"
-
-            
-
-  
-
