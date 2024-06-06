@@ -4,7 +4,7 @@ const configRest = require('./src/REST/Config/configDomain.js');
 const mongoose = require('mongoose');
 
 
-const url = "mongodb+srv://qweqwe:qweqwe@codesnippets.atg4h.mongodb.net/moviesdb?retryWrites=true&w=majority";
+const url = "mongodb+srv://rest:test@thesis.ipdmqyv.mongodb.net/?retryWrites=true&w=majority&appName=thesis";
 const connect = mongoose.connect(url, {
     useNewUrlParser: true
 });
