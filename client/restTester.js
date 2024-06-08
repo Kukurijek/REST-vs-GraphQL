@@ -127,6 +127,9 @@ async function testGetAllUsers(iterations) {
     for (var i = 0; i < iterations; i++) {
         const startTime = Date.now();
         var response = await fetch(`http://localhost:8080/users`)
+        console.log("Data of all Users")
+        var data = await response.json();
+        console.log(data)
         const totalTime = Date.now() - startTime;
         testArray.push(totalTime);
         ramArray.push(JSON.parse(response.headers.get('performance')).ram);

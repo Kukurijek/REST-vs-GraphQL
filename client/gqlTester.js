@@ -179,6 +179,7 @@ async function testAddReview(iterations, userList, movieList) {
     }
     return json;
 }
+
 async function testUpdateReview(iterations, reviewList) {
     testArray = [];
     ramArray = [];
