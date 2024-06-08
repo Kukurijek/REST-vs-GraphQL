@@ -44,22 +44,29 @@ async function populateLists() {
     //doUpdateUserAllFields1000iterations();
     //doAddReview(10000);
     //sleep(5000);
-    //await testGetSpecificUserAllFields(500, "646365ce182ba4bbb0dc157d");
-    //await testGetSpecificUserLimitedFields(500, "646365ce182ba4bbb0dc157d");
+
 
     //userList = await fetcher.getUserList();
     //movieList = await fetcher.getMovieList();
-    // First test - check getting a user with all fields
     //await testGetSpecificUserAllFields(3, "646365ce182ba4bbb0dc157d");
 
-    // Second Test - check getting a user with all fields with 5 iterations
     //await testGetSpecificUserAllFields(5, "646365ce182ba4bbb0dc157d");
 
-    // Second Test - check getting a user with all fields with 50 iterations
     //await testGetSpecificUserAllFields(50, "646365ce182ba4bbb0dc157d");
 
-   // await testGetAllUsers(1);
-    //await testGetAllUsers(200);
+
+
+    // First test - get specific user with many reviews
+    //await testGetSpecificUserAllFields(5, "646365ce182ba4bbb0dc157d");
+    await testGetSpecificUserAllFields(10, "646365ce182ba4bbb0dc157d");
+
+   // Second test - get specific users without review fields
+    //await testGetSpecificUserLimitedFields(5, "646365ce182ba4bbb0dc157d");
+    await testGetSpecificUserLimitedFields(10, "646365ce182ba4bbb0dc157d");
+
+   // Third test - get all users
+   // await testGetAllUsers(5);
+    await testGetAllUsers(10);
 
 }
 
