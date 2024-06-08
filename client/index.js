@@ -19,20 +19,23 @@ var restCpuArr = [];
 var restRamArr = [];
 
 async function populateLists() {
-    //users = await gqlQueries.getUsersFnameLNameReviewsMovieName();
-    //users = users.data;
-    //movies = await gqlQueries.getMovies();
-    //movies = movies.data;
+    users = await gqlQueries.getUsersFnameLNameReviewsMovieName();
+    users = users.data;
+    movies = await gqlQueries.getMovies();
+    movies = movies.data;
+   // console.log(movies)
     for (var i = 0; i < 250; i++) {
         await gqlQueries.getUserById("646365ce182ba4bbb0dc157d");
     }
 
     //await doTest6Queries(100);
-    //reviews = await gqlQueries.getReviews();
-    //reviews = reviews.data;
+    reviews = await gqlQueries.getReviews();
+    reviews = reviews.data;
+   // console.log(reviews)
+    //createMovieTwoReviews(2);
 
     //doDifferentTasks1000Iterations();
-    getAllUsers200Iterations();
+    //getAllUsers200Iterations();
 
     //doAddUserAllFields1000Iterations();
     //doAddUserLimitedFields1000Iterations();
@@ -46,9 +49,40 @@ async function populateLists() {
 
     //userList = await fetcher.getUserList();
     //movieList = await fetcher.getMovieList();
+    // First test - check getting a user with all fields
+    //await testGetSpecificUserAllFields(3, "646365ce182ba4bbb0dc157d");
+
+    // Second Test - check getting a user with all fields with 5 iterations
+    //await testGetSpecificUserAllFields(5, "646365ce182ba4bbb0dc157d");
+
+    // Second Test - check getting a user with all fields with 50 iterations
+    //await testGetSpecificUserAllFields(50, "646365ce182ba4bbb0dc157d");
+
+   // await testGetAllUsers(1);
+    //await testGetAllUsers(200);
+
 }
 
 populateLists();
+
+async function testGetAllUsers(iterations) {
+    console.log("Testing getAllUsers");
+    clearArrays();
+    console.log("Testing GQL");
+    let json;
+    json = await gqlTester.testGetAllUsers(iterations);
+    gqlRestimeArr = gqlRestimeArr.concat(json.testArr);
+    gqlCpuArr = gqlCpuArr.concat(json.cpuArr);
+    gqlRamArr = gqlRamArr.concat(json.ramArr);
+
+    console.log("Testing Rest")
+    json = await restTester.testGetAllUsers(iterations);
+    restRestimeArr = restRestimeArr.concat(json.testArr);
+    restCpuArr = restCpuArr.concat(json.cpuArr);
+    restRamArr = restRamArr.concat(json.ramArr);
+
+    testWriter.saveFileToCsv(gqlRestimeArr, gqlCpuArr, gqlRamArr, restRestimeArr, restCpuArr, restRamArr, `../Testresults/getAllUsers_iterations_${iterations}.csv`);
+}
 
 async function testGetSpecificUserAllFields(iterations, userID) {
     console.log("Testing getSpecificUserAllFields");
@@ -57,8 +91,8 @@ async function testGetSpecificUserAllFields(iterations, userID) {
     let json;
     json = await gqlTester.testGetSpecificUserAllFields(iterations, userID);
     gqlRestimeArr = gqlRestimeArr.concat(json.testArr);
-    gqlCpuArr = restCpuArr.concat(json.cpuArr);
-    gqlRamArr = restRamArr.concat(json.ramArr);
+    gqlCpuArr = gqlCpuArr.concat(json.cpuArr);
+    gqlRamArr = gqlRamArr.concat(json.ramArr);
 
     console.log("Testing Rest")
     json = await restTester.testGetSpecificUser(iterations, userID);
