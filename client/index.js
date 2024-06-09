@@ -58,14 +58,18 @@ async function populateLists() {
 
     // First test - get specific user with many reviews
     //await testGetSpecificUserAllFields(5, "646365ce182ba4bbb0dc157d");
+       // Second test - get specific users without review fields
+    //await testGetSpecificUserLimitedFields(5, "646365ce182ba4bbb0dc157d");
+       // Third test - get all users
+   // await testGetAllUsers(5);
+
+   
     await testGetSpecificUserAllFields(10, "646365ce182ba4bbb0dc157d");
 
-   // Second test - get specific users without review fields
-    //await testGetSpecificUserLimitedFields(5, "646365ce182ba4bbb0dc157d");
+
     await testGetSpecificUserLimitedFields(10, "646365ce182ba4bbb0dc157d");
 
-   // Third test - get all users
-   // await testGetAllUsers(5);
+
     await testGetAllUsers(10);
 
 }
